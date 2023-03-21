@@ -1,0 +1,2 @@
+class UpdateTokenError(Exception):
+    pass
