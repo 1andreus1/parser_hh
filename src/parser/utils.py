@@ -18,6 +18,13 @@ API_ENDPOINTS = {
     'TOKEN': 'https://hh.ru/oauth/token',
 }
 
+TYPES_OF_AUTH_ERRORS = (
+    'bad_authorization',
+    'token_expired',
+    'token_revoked',
+)
+
+
 
 def get_response(method: str, endpoint: str, **kwargs: dict) -> Tuple[int, dict]:
     """
@@ -47,7 +54,7 @@ def check_status_code(status_code: int, res: dict) -> None:
 
     if status_code == 403:
         value = res.get('value')
-        if value in ('bad_authorization', 'token_expired', 'token_revoked'):
+        if value in TYPES_OF_AUTH_ERRORS:
             raise UpdateTokenError(value)
         else:
             raise ConnectionError(value)
